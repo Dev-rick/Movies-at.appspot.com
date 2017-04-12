@@ -120,6 +120,11 @@ class RatingMovieHandler(BaseHandler):
             for ratings in movie_last_ratings:
                 list_of_ratings.append(ratings)
         except UnboundLocalError:
+            counter.get_number_of_excellent_ratings(movie)
+            counter.get_number_of_very_good_ratings(movie)
+            counter.get_number_of_good_ratings(movie)
+            counter.get_number_of_not_special_ratings(movie)
+            counter.get_number_of_bad_ratings(movie)
             params = {"movie": movie, "date_created": date_created, "time_created": time_created,
                       "author_list": author_list}
             return self.render_template("movie_details.html", params=params)
