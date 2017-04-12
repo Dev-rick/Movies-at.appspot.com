@@ -109,21 +109,26 @@ class RatingMovieHandler(BaseHandler):
         good = self.request.get("good")
         very_good = self.request.get("very_good")
         excellent = self.request.get("excellent")
-        ratings = counter.get_ratings(bad, not_special, good, very_good, excellent)
-        list_of_ratings.append(ratings)
         movie = Movies.get_by_id(int(movie_id))
+        date_created = str(movie.created)[0:10]
+        time_created = str(movie.created)[11:19]
+        author_list = counter.get_author_list(movie)
         movie_last_ratings = movie.average_rating_float_list
-        for ratings in movie_last_ratings:
+        try:
+            ratings = counter.get_ratings(bad, not_special, good, very_good, excellent)
             list_of_ratings.append(ratings)
+            for ratings in movie_last_ratings:
+                list_of_ratings.append(ratings)
+        except UnboundLocalError:
+            params = {"movie": movie, "date_created": date_created, "time_created": time_created,
+                      "author_list": author_list}
+            return self.render_template("movie_details.html", params=params)
         average_rating_str = counter.get_average_rating_str(list_of_ratings)
         average_rating_float_in_str = counter.get_average_rating_float_in_str(list_of_ratings)
         movie.average_rating_float_in_str = average_rating_float_in_str
         movie.average_rating_float_list = list_of_ratings
         movie.average_rating_str = average_rating_str
         movie.put()
-        date_created = str(movie.created)[0:10]
-        time_created = str(movie.created)[11:19]
-        author_list = counter.get_author_list(movie)
         counter.define_number_of_ratings(movie)
         counter.define_number_of_ratings(movie)
         counter.get_number_of_excellent_ratings(movie)
