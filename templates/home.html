@@ -62,7 +62,7 @@
             {% for movie in movies %}
             <div class="col-md-2 background opacity">
                 <h2 class="underline">{{ movie.name }} <small><span class="star-rating font-color-white"> {{ movie.average_rating_float_in_str }} <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></span></small></h2>
-                <img src="{{movie.image}}" class="img-responsive">
+                <img src="{{movie.image}}" class="img-responsive border-radius">
                 <a href="/movie/{{ movie.key.id() }}" class="btn btn-default margin-top"><p><small>See more!</small></p></a>
             </div>
         {% endfor %}

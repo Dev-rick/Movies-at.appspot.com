@@ -4,6 +4,16 @@ body {
     font-size: 20px;
 }
 
+.jumbotron{
+    box-shadow: 4px 4px 4px #aaa;
+}
+
+.panel {
+     box-shadow: 4px 4px 4px #aaa;
+}
+
+
+
 h1 {
     font-size: 50px;
 }
@@ -66,6 +76,7 @@ body{
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
+    box-shadow: 4px 4px 4px #aaa;
 }
 
 .background-without-margin {
@@ -73,6 +84,7 @@ body{
     background-color: #EEEEEE;
     border-radius: 10px;
     padding: 20px;
+    box-shadow: 4px 4px 4px #aaa;
 }
 
 
@@ -94,8 +106,8 @@ body{
  }
 
 img {
- max-width: 617px;
- max-height: 250px;
+    max-width: 617px;
+    max-height: 250px;
 }
 
 .star-rating{
@@ -104,6 +116,11 @@ img {
     border-radius: 15px;
     padding: 8px 15px;
     margin: 10px;
+    box-shadow: 4px 4px 4px #aaa;
+}
+
+.btn {
+    box-shadow: 4px 4px 4px #aaa;
 }
 
 .font-color-white{
@@ -137,7 +154,6 @@ img {
 }
 
 .padding {
-
     padding: 10px;
 }
 
