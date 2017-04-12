@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback list{% endblock title %}
+
+{% block page_content %}
+
+<div class="container-fluid opacity">
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="page-header">
+                        <h1 class="underline">List of all movies:</h1>
+                    </div>
+                    <div>
+                        {% for movie in result_list %}
+                        <h4><a href="/movie/{{ movie.key.id() }}">{{ movie.name }} <small><span class="star-rating font-color-white"> {{ movie.average_rating_float_in_str }} <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></span></small><small>(rating: {{ movie.average_rating_str }})</small></a></h4>
+                        {% endfor %}
+                        <form method="get" action="/movies-list">
+                            {% for movie in movies %}
+                            <h4><a href="/movie/{{ movie.key.id() }}">{{ movie.name}} <small><span class="star-rating font-color-white"> {{ movie.average_rating_float_in_str }} <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></span></small><small>(rating: {{ movie.average_rating_str }})</small></a></h4>
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="col-lg-5">
+                    <div class="form-group background">
+                        <form method="post" action="/movies-list/search">
+                            <div class="form-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search">
+                            </div>
+                            <label class="col-sm-4 control-label">
+                                Search by:
+                            </label>
+                            <label class="radio-inline">
+                                <input type="checkbox" name="text" value="option1" checked> Title
+                            </label>
+                            <label class="radio-inline">
+                                <input type="checkbox" name="ratings"  value="option2"> Ratings
+                            </label>
+                            <label class="radio-inline">
+                                <input type="checkbox" name="date"  value="option3"> Upload-date
+                            </label>
+                            <button type="submit" class="btn btn-default float-right margin-top">Submit</button>
+                        </form>
+                    </div>
+            </div>
+    </div>
+</div>
+{% endblock page_content %}

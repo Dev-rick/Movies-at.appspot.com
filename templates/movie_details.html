@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Movie details{% endblock title %}
+
+{% block page_content %}
+
+<div class="opacity container-fluid">
+    <div class="background-without-margin">
+        <h1 class="underline">Movie info:</h1>
+        <img class="border-radius margin-bottom img-responsive" src="{{movie.image}}" alt="{{movie.name}}">
+        <p>
+            <span class="underline">Rating:</span>
+            <span class="star-rating font-color-white"> {{ movie.average_rating_float_in_str }}
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            </span>
+            <span> {{ movie.average_rating_float_in_str }} out of 5 stars </span>
+             (<span>{{movie.number_of_ratings}} ratings</span>)
+            <button type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" title="Ratings info!"
+                    data-content="Excellent-ratings: {{ movie.number_of_excellent_ratings_str }} times
+                                  Very-good-ratings: {{ movie.number_of_very_good_ratings_str }} times
+                                  Good-ratings: {{ movie.number_of_good_ratings_str }} times
+                                  Not-special-ratings: {{ movie.number_of_not_special_ratings_str }} times
+                                  Bad-ratings: {{ movie.number_of_bad_ratings_str }} times">
+                Ratings info!
+            </button><span><small></small></span>
+        <p><span class="underline">Name:</span> {{ movie.name }}</p>
+        <p><span class="underline">Information:</span> {{ movie.information }}</p>
+        <p><span class="underline">Date:</span> {{ date_created}}</p>
+        <p><span class="underline">Time:</span> {{ time_created}}</p>
+        <a href="#delete" data-toggle="modal"><button class="btn btn-danger">Delete!</button></a>
+        <div class="form-group margin-top-100px">
+            <label class="col-sm-4 control-label underline">Rate the movie:</label>
+            <div class="col-sm-10">
+                <form  method="post" action="/rating-movie/{{ movie.key.id() }}">
+                <label class="radio-inline">
+                  <input type="checkbox" name="bad" id="inlineRadio1" value="option1"> Bad
+                </label>
+                <label class="radio-inline">
+                  <input type="checkbox" name="not_special" id="inlineRadio1" value="option1"> Not special
+                </label>
+                <label class="radio-inline">
+                  <input type="checkbox" name="good" id="inlineRadio1" value="option1"> Good
+                </label>
+                <label class="radio-inline">
+                  <input type="checkbox" name="very_good" id="inlineRadio1" value="option1"> Very Good
+                </label>
+                <label class="radio-inline">
+                  <input type="checkbox" name="excellent" id="inlineRadio1" value="option1"> Excellent
+                </label>
+                <button class="btn btn-primary margin-left"  type="submit"> Rate!</button>
+                </form>
+            </div>
+        </div>
+        <form method="post" action="/movie/{{ movie.key.id() }}/comment">
+            <div class="container-fluid col-sm-10 form-group margin-top-100px">
+                <label  class="col-sm-8 control-label">Comment:</label>
+                <div class="col-sm-9"> <!--=text-box-->
+                    <textarea name="comment" class="form-control" rows="8" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Name:</label>
+                    <div class="col-sm-3"> <!--=text-box-->
+                        <input name="author" type="text" class="form-control" id="contact-name" placeholder="Your name" />
+                    </div>
+                </div>
+                <button class="btn btn-primary float-right margin-top"  type="submit">Send</button>
+            </div>
+        </form>
+        <div class="col-sm-10 form-group margin-top-100px">
+            <div class="row">
+                <div>
+                    <div class="panel panel-default ">
+                        <div class="page-header padding">
+                            <h2 class="margin-left"> Comments:</h2>
+                            {% set cnt = [-1] %}
+                            {% for comment in movie.comments %}
+                            <div class="panel panel-default background-with-width-100%">
+                                    {% if cnt.append(cnt.pop() + 1) %}{% endif %}
+                                <div class="panel-heading">{{ author_list[cnt[0]] }} wrote:
+                                </div>
+                                <div class="panel-body">
+                            {{ comment }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete" role="dialog">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <form method="post" action="/movie/{{ movie.key.id() }}/delete" class="form-horizontal">
+                <div class="modal-header">
+                    <h4>Delete movie</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <h4>Are you sure you want to delete this movie?</h4>
+                        </div>
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <a class="btn btn-default"  data-dismiss="modal">No</a>
+                    <button class="btn btn-danger"  type="submit">Yes</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
